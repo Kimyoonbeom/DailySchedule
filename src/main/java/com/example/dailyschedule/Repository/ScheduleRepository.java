@@ -4,6 +4,7 @@ import com.example.dailyschedule.Entity.ScheduleEntity;
 import com.example.dailyschedule.dto.ScheduleResponseDto;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ScheduleRepository {
@@ -14,7 +15,7 @@ public interface ScheduleRepository {
 
     ScheduleEntity findScheduleById(Long id); // ID로 일정 조회.
 
-    void deleteschedule(Long id); // ID로 일정 삭제.
+    void deleteSchedule(Long id); // ID로 일정 삭제.
 
-    ScheduleEntity mapRowToSchedule(ResultSet resultSet, int i);
+    ScheduleEntity mapRowToSchedule(ResultSet resultSet, int i) throws SQLException; //
 }

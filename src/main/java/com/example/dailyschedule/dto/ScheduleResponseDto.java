@@ -17,7 +17,7 @@ public class ScheduleResponseDto {
         this.id = schedule.getId();
         this.task = schedule.getTask();
         this.authorName = schedule.getAuthorName();
-        this.createDay = schedule.getCreatedDay().toString(); // YYYY-MM-DD 형식으로 받기 위한 문자열 변환.
+        this.createDay = schedule.getCreateDay().toString(); // YYYY-MM-DD 형식으로 받기 위한 문자열 변환.
         this.updatedDay = schedule.getUpdatedDay().toString();
     }
 }

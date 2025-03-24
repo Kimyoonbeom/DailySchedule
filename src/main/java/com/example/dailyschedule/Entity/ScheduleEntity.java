@@ -13,21 +13,21 @@ public class ScheduleEntity {
     private String task;
     private String authorName;
     private String password;
-    private LocalDate createdDay;
+    private LocalDate createDay;
     private LocalDate updatedDay;
 
     public ScheduleEntity(String task, String authorName, String password) {
         this.task = task;
         this.authorName = authorName;
         this.password = password;
-        this.createdDay = LocalDate.now();
+        this.createDay = LocalDate.now();
         this.updatedDay = LocalDate.now();
     }
 
     public void update(String task, String authorName) {
         this.task = task;
         this.authorName = authorName;
-        this.createdDay = LocalDate.now();
+        this.createDay = LocalDate.now();
         this.updatedDay = LocalDate.now();
     }
 }
