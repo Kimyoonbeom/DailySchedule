@@ -2,11 +2,13 @@ package com.example.dailyschedule.Repository;
 
 import com.example.dailyschedule.Entity.ScheduleEntity;
 import com.example.dailyschedule.dto.ScheduleResponseDto;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public interface ScheduleRepository {
 
     ScheduleEntity saveSchedule(ScheduleEntity schedule); // 저장

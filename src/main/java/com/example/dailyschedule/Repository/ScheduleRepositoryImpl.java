@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,5 +62,16 @@ public abstract class ScheduleRepositoryImpl implements ScheduleRepository{
         String sql = "DELETE FROM daily_schedule WHERE id = ? AND password = ?";
         return jdbcTemplate.update(sql, id, password);
     }
-
+    // RowMapper
+    public ScheduleEntity mapRowToSchedule(ResultSet rs, int rowNum) throws SQLException {
+        ScheduleEntity schedule = new ScheduleEntity(
+                rs.getString("task"),
+                rs.getString("author_name"),
+                rs.getString("password")
+        );
+        schedule.setId(rs.getLong("id"));
+        schedule.setCreateDay(rs.getDate("create_day").toLocalDate());
+        schedule.setUpdatedDay(rs.getDate("updated_day").toLocalDate());
+        return schedule;
+    }
 }
