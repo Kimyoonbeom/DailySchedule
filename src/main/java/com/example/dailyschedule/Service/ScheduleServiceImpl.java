@@ -2,6 +2,7 @@ package com.example.dailyschedule.Service;
 
 import com.example.dailyschedule.Entity.ScheduleEntity;
 import com.example.dailyschedule.Repository.ScheduleRepository;
+import com.example.dailyschedule.dto.ScheduleRequestDto;
 import com.example.dailyschedule.dto.ScheduleResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleRepository scheduleRepository;
 
     @Override
-    public void createSchedule(ScheduleEntity schedule) {
+    public void createSchedule(ScheduleRequestDto request) {
+        ScheduleEntity schedule = new ScheduleEntity(
+                request.getTask(),
+                request.getAuthorName(),
+                request.getPassword()
+        );
         scheduleRepository.saveSchedule(schedule);
     }
 
@@ -30,9 +36,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public boolean updateSchedule(Long id, String task, String authorName, String password) {
-        int rowsUpdated = scheduleRepository.updateSchedule(id, task, authorName, password);
-        return rowsUpdated > 0;
+    public boolean updateSchedule(Long id, ScheduleRequestDto request) {
+        ScheduleEntity existingSchedule = scheduleRepository.findScheduleById(id);
+        if (existingSchedule != null && existingSchedule.getPassword().equals(request.getPassword())) {
+            existingSchedule.update(request.getTask(), request.getAuthorName());
+            scheduleRepository.saveSchedule(existingSchedule);
+            return true;
+        }
+        return false;
     }
 
     @Override

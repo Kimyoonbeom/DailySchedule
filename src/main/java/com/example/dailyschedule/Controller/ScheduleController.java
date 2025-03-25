@@ -25,7 +25,7 @@ public class ScheduleController {
                 request.getAuthorName(),
                 request.getPassword()
         );
-        scheduleService.createSchedule(schedule);
+        scheduleService.createSchedule(request);
         return ResponseEntity.ok("일정이 성공적으로 생성되었습니다.");
     }
 
@@ -44,9 +44,8 @@ public class ScheduleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateSchedule(@PathVariable Long id,
-                                                 @RequestBody ScheduleRequestDto request,
-                                                 @RequestParam String password) {
-        boolean isUpdated = scheduleService.updateSchedule(id, request.getTask(), request.getAuthorName(), password);
+                                                  @RequestBody ScheduleRequestDto dto) {
+        boolean isUpdated = scheduleService.updateSchedule(id, dto);
         if (isUpdated) {
             return ResponseEntity.ok("일정이 성공적으로 수정되었습니다.");
         } else {

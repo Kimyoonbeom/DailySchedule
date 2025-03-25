@@ -7,11 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public class ScheduleResponseDto {
-    private final Long id;
-    private final String task;
-    private final String authorName;
-    private final String createDay;
-    private final String updatedDay;
+    private Long id;
+    private String task;
+    private String authorName;
+    private String createDay;
+    private String updatedDay;
 
     public ScheduleResponseDto(ScheduleEntity schedule){
         this.id = schedule.getId();
