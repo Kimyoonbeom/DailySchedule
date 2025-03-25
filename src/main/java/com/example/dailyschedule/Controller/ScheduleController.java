@@ -41,9 +41,18 @@ public class ScheduleController {
         return ResponseEntity.ok(new ScheduleResponseDto(schedule));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateSchedule(@PathVariable Long id,
+                                                 @RequestBody
+                                                 ScheduleRequestDto request,
+                                                 @RequestParam String password){
+        boolean isUpdated = scheduleService.updateSchedule(id, request.getTask(), request.getAuthorName(), password);
+        return ResponseEntity.ok("일정이 수정되었습니다.");
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteSchedule(id);
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long id,
+                                                 @RequestParam String password){
+        boolean isDeleted = scheduleService.deleteSchedule(id, password);
         return ResponseEntity.ok("일정이 삭제되었습니다.");
     }
 }
