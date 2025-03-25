@@ -22,7 +22,7 @@ public class ScheduleService {
         return scheduleRepository.findAllSchedules(updateDay, authorName);
     }
     // ID로 일정 받기.
-    public ScheduleEntity getSheduleByID(Long id){
+    public ScheduleEntity getScheduleById(Long id){
         return scheduleRepository.findScheduleById(id);
     }
     // 일정 삭제.
