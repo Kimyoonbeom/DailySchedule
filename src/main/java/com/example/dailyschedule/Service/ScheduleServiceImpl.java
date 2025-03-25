@@ -1,8 +1,7 @@
-package com.example.dailyschedule.Service.impl;
+package com.example.dailyschedule.Service;
 
 import com.example.dailyschedule.Entity.ScheduleEntity;
 import com.example.dailyschedule.Repository.ScheduleRepository;
-import com.example.dailyschedule.Service.ScheduleService;
 import com.example.dailyschedule.dto.ScheduleResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

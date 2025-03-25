@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public abstract class ScheduleRepositoryImpl implements ScheduleRepository{
+public class ScheduleRepositoryImpl implements ScheduleRepository{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -21,7 +21,7 @@ public abstract class ScheduleRepositoryImpl implements ScheduleRepository{
     @Override
     public ScheduleEntity saveSchedule(ScheduleEntity schedule){
         String sql = "INSERT INTO daily_schedule (task, author_name, password, create_day, updated_day) " +
-                "VALUES (task = ?, author_name = ?, password = ?, create_day = ?, updated_day = ?)";
+                "VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, schedule.getTask(), schedule.getAuthorName(), schedule.getPassword(), schedule.getCreateDay(), schedule.getUpdatedDay());
 
         return schedule;
