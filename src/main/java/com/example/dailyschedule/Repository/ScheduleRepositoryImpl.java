@@ -20,9 +20,10 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+
     public ScheduleRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-
+    }
         // 일정 저장하기. CREATE.
         @Override
         public Schedule saveSchedule(Schedule schedule){
@@ -62,7 +63,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
             }
             sql.append("ORDER BY updated_at DESC");
 
-            jdbcTemplate.query(
+            return jdbcTemplate.query(
                     sql.toString(),
                     (rs, rowNum) -> new Schedule(
                             rs.getLong("id"),
@@ -102,8 +103,10 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         }
         // 일정 삭제하기. DELETE
         @Override
-        public void deleteById (Long id){
+        public void deleteSchedule (Long id){
             String sql = "DELETE FROM schedule WHERE id = ?";
             jdbcTemplate.update(sql, id);
         }
     }
+
+

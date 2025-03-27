@@ -1,7 +1,7 @@
 package com.example.dailyschedule.Controller;
 
-import com.example.dailyschedule.dto.request.ScheduleSaveRequestDto;
-import com.example.dailyschedule.dto.request.ScheduleUpdateRequestDto;
+import com.example.dailyschedule.Service.ScheduleService;
+import com.example.dailyschedule.dto.request.ScheduleRequestDto;
 import com.example.dailyschedule.dto.response.ScheduleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,9 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleSaveRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleRequestDto requestDto) {
         return ResponseEntity.ok(scheduleService.saveSchedule(requestDto));
     }
-
     @GetMapping("/schedules")
     public ResponseEntity<List<ScheduleResponseDto>> findAllSchedules(
             @RequestParam(required = false) String updatedDate,
@@ -35,7 +34,7 @@ public class ScheduleController {
     @PutMapping("/schedules/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
-            @RequestBody ScheduleUpdateRequestDto request
+            @RequestBody ScheduleRequestDto request
     ) {
         return ResponseEntity.ok(scheduleService.updateSchedule(id, request));
     }
