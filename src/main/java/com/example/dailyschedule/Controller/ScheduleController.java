@@ -1,65 +1,47 @@
 package com.example.dailyschedule.Controller;
 
-import com.example.dailyschedule.dto.ScheduleRequestDto;
-import com.example.dailyschedule.dto.ScheduleResponseDto;
-import com.example.dailyschedule.Entity.ScheduleEntity;
-import com.example.dailyschedule.Service.ScheduleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.example.dailyschedule.dto.request.ScheduleSaveRequestDto;
+import com.example.dailyschedule.dto.request.ScheduleUpdateRequestDto;
+import com.example.dailyschedule.dto.response.ScheduleResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/schedules")
+@RequiredArgsConstructor
 public class ScheduleController {
 
-    @Autowired
-    private ScheduleService scheduleService;
+    private final ScheduleService scheduleService;
 
-    @PostMapping
-    public ResponseEntity<String> createSchedule(@RequestBody ScheduleRequestDto request) {
-        ScheduleEntity schedule = new ScheduleEntity(
-                request.getTask(),
-                request.getAuthorName(),
-                request.getPassword()
-        );
-        scheduleService.createSchedule(request);
-        return ResponseEntity.ok("일정이 성공적으로 생성되었습니다.");
+    @PostMapping("/schedules")
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleSaveRequestDto requestDto) {
+        return ResponseEntity.ok(scheduleService.saveSchedule(requestDto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> getAllSchedules(
-            @RequestParam(required = false) String updatedDay,
-            @RequestParam(required = false) String authorName) {
-        return ResponseEntity.ok(scheduleService.getAllSchedules(updatedDay, authorName));
+    @GetMapping("/schedules")
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedules(
+            @RequestParam(required = false) String updatedDate,
+            @RequestParam(required = false) String memberName) {
+        return ResponseEntity.ok(scheduleService.findAllSchedules(updatedDate, memberName));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> getScheduleById(@PathVariable Long id) {
-        ScheduleEntity schedule = scheduleService.getScheduleById(id);
-        return ResponseEntity.ok(new ScheduleResponseDto(schedule));
+    @GetMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.findScheduleById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateSchedule(@PathVariable Long id,
-                                                  @RequestBody ScheduleRequestDto dto) {
-        boolean isUpdated = scheduleService.updateSchedule(id, dto);
-        if (isUpdated) {
-            return ResponseEntity.ok("일정이 성공적으로 수정되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("비밀번호가 잘못되었습니다.");
-        }
+    @PutMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody ScheduleUpdateRequestDto request
+    ) {
+        return ResponseEntity.ok(scheduleService.updateSchedule(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long id, @RequestParam String password) {
-        boolean isDeleted = scheduleService.deleteSchedule(id, password);
-        if (isDeleted) {
-            return ResponseEntity.ok("일정이 성공적으로 삭제되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("비밀번호가 잘못되었습니다.");
-        }
+    @DeleteMapping("/schedules/{id}")
+    public void deleteSchedule(@PathVariable Long id, @RequestParam String password) {
+        scheduleService.deleteSchedule(id, password);
     }
 }
